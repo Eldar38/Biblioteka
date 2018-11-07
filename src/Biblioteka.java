@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.InputMismatchException;
 public class Biblioteka {
 	static Scanner input = new Scanner(System.in);
 	static  ArrayList<Zapisnik> zapisnikStvari = new ArrayList<>();	
 	static 	ArrayList<Knjiga> ListaKnjiga = new ArrayList<>();
 	static	ArrayList<Racun> ListaRacuna = new ArrayList<>();
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InputMismatchException{
+		
 		
 		izbornik();
 		
@@ -22,11 +23,18 @@ public class Biblioteka {
 		System.out.println("4. >> Vracanje knjiga << ");
 		System.out.println("5. >> Ispisivanje detalja racuna << ");
 		System.out.println("Izaberite jednu opciju: ");
-		int unos = input.nextInt();
-		while(unos != 1 && unos != 2 && unos != 3 && unos != 4 && unos != 5 ) {
-			System.out.println("Molimo vas unesite pravilan broj.");
-			unos = input.nextInt();
-		}
+		int unos = -1;
+		do {
+			try {
+				unos = input.nextInt();
+				if(unos < 1 || unos >5)
+					System.out.println("Pogresan unos, izaberite broj izmedu 1 i 5");
+			}
+			catch(InputMismatchException e) {
+				System.out.println("Greska, pokusajte ponovo: ");
+				input.next();
+			}
+		}while(unos < 1 || unos > 5);
 		
 		switch(unos) {
 		
@@ -57,10 +65,33 @@ public class Biblioteka {
 			PosudiKnjigu posudiKnjigu = new PosudiKnjigu();
 			
 			System.out.println("Unesite broj racuna:  ");
-			int brojRacuna = input.nextInt();
+			int brojRacuna = -1;
+			do {
+				try {
+					brojRacuna = input.nextInt();
+					if(brojRacuna <= 0) 
+						System.out.println("Pogresan unos");
+				}
+				catch(InputMismatchException e) {
+					System.out.println("Greska, pokusajte ponovo: ");
+					input.next();
+				}
+			}while(brojRacuna < 0 || brojRacuna == 0);
+		
 			posudiKnjigu.brojRacuna = brojRacuna;
 			System.out.println("Unesite broj knjige: ");
-			int brojKnjige = input.nextInt();
+			int brojKnjige = -1;
+			do {
+				try {
+					brojKnjige  = input.nextInt();
+					if(brojKnjige  < 0 || brojKnjige == 0)  
+						System.out.println("Pogresan unos");
+				}
+				catch(InputMismatchException e) {
+					System.out.println("Greska, pokusajte ponovo: ");
+					input.next();
+				}
+			}while(brojKnjige < 0 || brojKnjige == 0);
 			posudiKnjigu.brojKnjige = brojKnjige;
 			posudiKnjigu.posudiKnjigu();
 			if(posudiKnjigu.postoji) {
@@ -74,9 +105,31 @@ public class Biblioteka {
 			break;
 		case 4:
 			System.out.println("Koji je vas broj racuna?");
-			int idRacuna = input.nextInt();
+			int idRacuna = -1;
+			do {
+				try {
+					idRacuna = input.nextInt();
+					if(idRacuna <= 0) 
+						System.out.println("Pogresan unos");
+				}
+				catch(InputMismatchException e) {
+					System.out.println("Greska, pokusajte ponovo: ");
+					input.next();
+				}
+			}while(idRacuna < 0 || idRacuna == 0);
 			System.out.println("Broj knjige koju vracate?");
-			int idKnjige = input.nextInt();
+			int idKnjige = -1;
+			do {
+				try {
+					idKnjige  = input.nextInt();
+					if(idKnjige  < 0 || idKnjige == 0)  
+						System.out.println("Pogresan unos");
+				}
+				catch(InputMismatchException e) {
+					System.out.println("Greska, pokusajte ponovo: ");
+					input.next();
+				}
+			}while(idKnjige < 0 || idKnjige == 0);
 			boolean ispravanClan = true;
 			for(int i = 0; i < zapisnikStvari.size(); i++) {
 				if(zapisnikStvari.get(i).brojRacuna != idRacuna && zapisnikStvari.get(i).brojKnjige == idKnjige) {
